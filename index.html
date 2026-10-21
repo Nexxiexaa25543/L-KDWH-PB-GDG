@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>still smiling in the dark</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200;300;400&family=Cinzel:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #000;
+            color: #ff2e2e;
+            font-family: 'Sarabun', sans-serif;
+            font-weight: 300;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* deep black-red living gradient */
+        .bg {
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse 120% 80% at 50% 20%, #2a0000 0%, transparent 50%),
+                radial-gradient(ellipse 90% 60% at 70% 80%, #1a0008 0%, transparent 45%),
+                radial-gradient(ellipse 80% 50% at 20% 70%, #120005 0%, transparent 40%),
+                linear-gradient(180deg, #050000 0%, #0a0000 40%, #000000 100%);
+            z-index: 0;
+            animation: breathe 18s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { filter: brightness(0.85) contrast(1.1); }
+            50% { filter: brightness(1.05) contrast(1.15); }
+        }
+
+        /* soft red fog layers */
+        .fog {
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(120, 0, 20, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(90, 0, 15, 0.1) 0%, transparent 45%);
+            z-index: 1;
+            pointer-events: none;
+            animation: fogDrift 25s ease-in-out infinite alternate;
+        }
+
+        @keyframes fogDrift {
+            0% { transform: translateX(-2%) translateY(1%); opacity: 0.7; }
+            100% { transform: translateX(2%) translateY(-1%); opacity: 1; }
+        }
+
+        /* heavy vignette */
+        .vignette {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent 25%, rgba(0,0,0,0.55) 70%, rgba(0,0,0,0.92) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* film grain */
+        .grain {
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+            z-index: 3;
+            pointer-events: none;
+            opacity: 0.45;
+            mix-blend-mode: overlay;
+        }
+
+        /* floating red dust particles */
+        .particles {
+            position: fixed;
+            inset: 0;
+            z-index: 4;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #ff1a1a;
+            border-radius: 50%;
+            box-shadow: 0 0 6px 1px rgba(255, 30, 30, 0.7);
+            opacity: 0;
+            animation: rise linear infinite;
+        }
+
+        @keyframes rise {
+            0% {
+                transform: translateY(100vh) scale(0.4);
+                opacity: 0;
+            }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.3; }
+            100% {
+                transform: translateY(-10vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* main content */
+        .wrapper {
+            position: relative;
+            z-index: 5;
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 100px 28px 160px;
+            text-align: center;
+        }
+
+        .title {
+            font-family: 'Cinzel', serif;
+            font-weight: 400;
+            font-size: clamp(1.1rem, 3.5vw, 1.55rem);
+            letter-spacing: 0.35em;
+            color: #ff3a3a;
+            margin-bottom: 70px;
+            text-shadow: 
+                0 0 10px rgba(255, 40, 40, 0.95),
+                0 0 25px rgba(255, 20, 20, 0.6),
+                0 0 50px rgba(160, 0, 0, 0.35);
+            animation: titleGlow 5s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% {
+                text-shadow: 
+                    0 0 10px rgba(255, 40, 40, 0.95),
+                    0 0 25px rgba(255, 20, 20, 0.6),
+                    0 0 50px rgba(160, 0, 0, 0.35);
+                opacity: 0.88;
+            }
+            50% {
+                text-shadow: 
+                    0 0 14px rgba(255, 55, 55, 1),
+                    0 0 35px rgba(255, 30, 30, 0.8),
+                    0 0 70px rgba(180, 0, 0, 0.45);
+                opacity: 1;
+            }
+        }
+
+        .line {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ff2a2a, transparent);
+            margin: 0 auto 55px;
+            opacity: 0.5;
+            box-shadow: 0 0 12px rgba(255, 40, 40, 0.5);
+        }
+
+        .text {
+            font-size: clamp(0.95rem, 2.4vw, 1.08rem);
+            line-height: 2.05;
+            color: #ff4545;
+            text-shadow: 
+                0 0 8px rgba(255, 50, 50, 0.55),
+                0 0 18px rgba(180, 0, 0, 0.25);
+            letter-spacing: 0.02em;
+        }
+
+        .text p {
+            margin-bottom: 2.4em;
+            opacity: 0.9;
+            transition: opacity 0.6s ease;
+        }
+
+        .text p:hover {
+            opacity: 1;
+        }
+
+        /* soft fading separator between thoughts */
+        .sep {
+            display: block;
+            width: 28px;
+            height: 28px;
+            margin: 10px auto 40px;
+            opacity: 0.25;
+            position: relative;
+        }
+
+        .sep::before,
+        .sep::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            background: #ff2222;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(255, 30, 30, 0.8);
+            transform: translate(-50%, -50%);
+        }
+
+        .sep::after {
+            width: 2px;
+            height: 2px;
+            opacity: 0.6;
+            animation: pulseDot 3.5s ease-in-out infinite;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.8); opacity: 0.9; }
+        }
+
+        /* final quiet line */
+        .ending {
+            margin-top: 80px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.4em;
+            color: #ff2a2a;
+            opacity: 0.55;
+            text-shadow: 0 0 12px rgba(255, 30, 30, 0.4);
+        }
+
+        /* custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #4a0000, #2a0000);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6a0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg"></div>
+    <div class="fog"></div>
+    <div class="vignette"></div>
+    <div class="grain"></div>
+    <div class="particles" id="particles"></div>
+
+    <div class="wrapper">
+        <div class="title">── Keep on Smiling ──</div>
+        <div class="line"></div>
+
+        <div class="text">
+            <p>Even if it means getting hurt, being trampled on over and over until I'm dead, I'm willing to bear it all. Maybe it would be better if little me just died. But... but one thing's for certain: little me will never die because of this brokenness. I'll keep smiling no matter what...</p>
+
+            <span class="sep"></span>
+
+            <p>Since Nex is such a coward, way too sensitive, and far too afraid to talk about his real life, I guess I'll let this other version of him speak instead—the one who can usually express himself quite fluently online.</p>
+
+            <p>He's always been someone who likes helping others. Whenever he sees someone suffering, he can't help but feel uneasy about it. On top of that, he's extremely sensitive. Like, ridiculously sensitive. I don't know what makes him so emotionally fragile, honestly. Remember when he said he'd faint just from seeing human organs? Yeah, that's because of how sensitive he is. Though, I guess that part is understandable.</p>
+
+            <span class="sep"></span>
+
+            <p>Whenever someone insults him or directs harsh words at him, he starts overthinking everything. Sometimes, he even cries where nobody can see him.
+
+Whenever he treats his own mother badly, he ends up blaming himself so much afterward. He hates himself for it, wondering, "Why the hell did I do that?" And sometimes, he ends up hurting himself because of all that self-hatred.
+
+He wants to apologize for what he did, but he doesn't have the courage to say it because of his own shortcomings.</p>
+
+            <p>He's just tired of life, both online and in the real world.
+
+Online, he's encountered all kinds of people, each different from the next. But most of the time, he seems to run into people struggling with depression or carrying terrible things from their past. He doesn't even know what he might have done in a past life to keep meeting so many people like that.</p>
+
+            <span class="sep"></span>
+
+            <p>Even so, he always tries to encourage others. He carefully thinks through every word he says, trying to find the most appropriate and meaningful things to say so he can comfort them in the best way possible.
+
+But no matter how many people he comforts, nobody really knows just how hard he has to force himself to smile.
+
+He's never let anyone see his sad side. He's chosen not to talk about it because he doesn't want anyone to worry about him.</p>
+
+            <p>He wonders, "Suffering? What's that? Can you eat it?"
+
+The word happiness feels foreign to him. He's come to hate his own existence, to hate the life he's living. And yet, no matter how much he hates it...
+
+"I will fight for it."
+
+"I will struggle."
+
+"I will laugh and be cheerful."
+
+"I will grieve and feel sorrow."
+
+"My life. MY life. MY LIFE. I MUST KEEP LIVING."</p>
+
+            <span class="sep"></span>
+
+            <p>Let me tell you a little about his past.
+
+Back in elementary school, he was bullied all the damn time. But he kept standing tall, forcing himself to smile through it all. They bullied him, hurled insults at him, and treated him terribly. And the worst part? They even forced him into a boxing match.</p>
+
+            <p>His emotions swing around so much that they feel like a damn roller coaster. He doesn't even know whether he's an introvert, an ambivert, or an extrovert.
+
+When he's around other people, he forces himself to act cheerful as usual. But when he's alone, he's incredibly quiet. Sometimes, he doesn't feel like talking to a single soul.</p>
+
+            <span class="sep"></span>
+
+            <p>Eventually, everything starts getting worse. He's like a tree with roots buried deep in the pine forest, surrounded by nothing but stress.
+
+There's the mountain of unfinished assignments, his relationships with other people, and his body, which seems to be wearing down a little more every day.
+
+It's incredibly difficult to explain, but comforting him isn't easy. Perhaps it's because he's always been the one comforting others. Whenever someone tries to comfort him, he becomes as stubborn and unyielding as a bag of rocks.</p>
+
+            <p>"Is something wrong? I'm worried about youuu. If anything's bothering you, you can tell me, okay?"
+
+Blah, blah, blah.
+
+Those are the kinds of messages people keep sending him. But to him, they're nothing more than empty, sugar-coated words—just another pretty little song about how wonderful the world is supposed to be.</p>
+
+            <span class="sep"></span>
+
+            <p>Even though he's a complete mess and can barely express himself properly in real life, this other version of him is serious about what he says.
+
+Sometimes, he wonders whether he even deserves to have any friends at all. Maybe staying with his family is enough.
+
+Thank you for always staying by his side.</p>
+
+            <p>But in the end, sooner or later, we will all face our own breaking point.
+
+We are born, and someday, we will die. I am no different from you. Eventually, we will all pass away, saying our final goodbyes to one another.
+
+But until that day comes...
+
+"We, we, WE will take this one life we've been given, hold tightly to who we are, embrace our own existence, and keep moving forward."</p>
+        </div>
+
+        <div class="ending">· · ·</div>
+    </div>
+
+    <script>
+        // soft rising red dust
+        const container = document.getElementById('particles');
+        const count = 28;
+
+        for (let i = 0; i < count; i++) {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            
+            const size = Math.random() * 2.5 + 1;
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDuration = (Math.random() * 14 + 12) + 's';
+            p.style.animationDelay = (Math.random() * 18) + 's';
+            p.style.opacity = Math.random() * 0.4 + 0.15;
+            
+            container.appendChild(p);
+        }
+    </script>
+</body>
+</html>
